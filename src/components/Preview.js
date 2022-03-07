@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 /**
  * We need to import fetchQueryResultsFromURL since we will sometimes have urls in info.prev and info.next
@@ -13,8 +13,8 @@ const Preview = (props) => {
    * 
    * You need info, records, setSearchResults, setFeaturedResult, and setIsLoading as available constants
    */
-    const {setSearchResults, setFeaturedResult, setIsLoading} = props;
-    const {info, records} = props.searchResults;
+    const {searchResults:{info, records}, setSearchResults, setFeaturedResult, setIsLoading} = props;
+    
 
    
     

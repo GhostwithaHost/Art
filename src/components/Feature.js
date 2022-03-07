@@ -1,8 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import { render } from 'react-dom';
+
 
 
 // Don't touch this import
 import { fetchQueryResultsFromTermAndValue } from '../api';
+import { Search } from '.';
 
 /**
  * We need a new component called Searchable which:
@@ -33,8 +36,9 @@ import { fetchQueryResultsFromTermAndValue } from '../api';
 const Searchable = (props) => {
     const {searchTerm, searchValue, setSearchResults, setIsLoading} = props;
 
-    <span className="content">
-        <a href="#" onClick={async (event) => {event.preventDefault(), setIsLoading(true)
+    return <span className="content">
+        <a href="#" onClick={async (event) => {event.preventDefault(); 
+        setIsLoading(true);
         try{ const result = await fetchQueryResultsFromTermAndValue(searchTerm, searchValue);
             setSearchResults(result);
 
@@ -93,36 +97,36 @@ const Searchable = (props) => {
  * This component should be exported as default.
  */
 const Feature = (props) => {
-    const {featuredResult} = props;
     const {title, dated, images, primaryimageurl, description, 
         culture, style, technique, medium, dimensions, people, department,
-         division, contact, creditline} = props.featuredResult;
+         division, contact, creditline} = props;
 
          
         return <main id="feature">
            <div className="object-feature">
              <header>
-               <h3>{title.name}</h3>
+               <h3>{title}</h3>
                <h4>{dated}</h4>
              </header>
              <section className="facts">
             <span className="title">
                 <li> 
-                {!description(undefined) ? (description.name) :null}
-                {!style (undefined) ?  (style.name) :null}
-                {!culture(undefined) ? (culture.name) : null}
-                {!dimensions(undefined) ? (dimensions.name) :null}
-                {!technique(undefined) ? (technique.name) :null}
-                {!department(undefined) ? (department.name) :null}
-                {!division(undefined) ? (division.name) : null}
-                {!contact(undefined) ? (contact.name) : null}
-                {!creditline(undefined) ? (creditline.name) :null}
+                {description !== undefined && <span description />}
+                {style !== undefined && <span style />}
+                {medium !== undefined && <span medium />}
+                {technique !== undefined && <span technique />}
+                {culture !== undefined && <span culture />}
+                {dimensions !== undefined && <span dimensions/>}
+                {department !== undefined && <span department/>}
+                {division !== undefined && <span division/>}
+                {contact !== undefined && <span contact/>}
+                {creditline !== undefined && <span creditline/>}
+                {people ===! 0 && render(people)}
+                {images ===! 0 && <img src={primaryimageurl} alt=''/>}
+                <Searchable culture={culture} technique={technique} 
+                medium={medium} people= {people}/>
                 </li>
-                </span>
-               <span className="content" >FACT VALUE</span>
-             </section>
-             <section className="photos">
-               <img src={IMAGE_URL} alt={SOMETHING_WORTHWHILE} />
+            </span>    
              </section>
            </div>
          </main>
