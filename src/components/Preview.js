@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 /**
  * We need to import fetchQueryResultsFromURL since we will sometimes have urls in info.prev and info.next
@@ -13,7 +13,14 @@ const Preview = (props) => {
    * 
    * You need info, records, setSearchResults, setFeaturedResult, and setIsLoading as available constants
    */
+    const {setSearchResults, setFeaturedResult, setIsLoading} = props;
+    const {info, records} = props.searchResults;
 
+   
+    
+    
+
+    
 
   /**
    * Don't touch this function, it's good to go.
@@ -37,18 +44,29 @@ const Preview = (props) => {
     <header className="pagination">
       {/* This button should be disabled if nothing is set in info.prev, and should call fetchPage with info.prev when clicked */}
       <button 
-        disabled={} 
+        disabled={!info.prev} 
         className="previous"
-        onClick={}>Previous</button>
+        onClick={()=>fetchPage(info.prev)}>Previous</button>
       {/* This button should be disabled if nothing is set in info.next, and should call fetchPage with info.next when clicked */}
       <button
-        disabled={}
+        disabled={!info.next}
         className="next"
-        onClick={}>Next</button>
+        onClick={() => fetchPage(info.next)}>Next</button>
     </header>
     <section className="results">
-      {
-        /* Here we should map over the records, and render something like this for each one:
+      {records.map(record => 
+      <div
+       key={record.index} 
+        className="object-preview"
+        onClick={(event) => { event.preventDefault(); setFeaturedResult(record)}}>
+        
+        {(record.primaryimageurl) ? (<img src={ record.primaryimageurl} alt={record.description} />) : null }
+        {(record.title) ? <h3>{record.title}</h3> : <h3>Missing Info</h3> }
+      </div>) }
+      
+      
+
+        {/* Here we should map over the records, and render something like this for each one:
           <div  
             key={ index }
             className="object-preview"
@@ -63,8 +81,8 @@ const Preview = (props) => {
               // if the record.title exists, add this: <h3>{ record.title }</h3>, otherwise show this: <h3>MISSING INFO</h3>
             }
           </div>
-        */
-      }
+        */}
+      
     </section>
   </aside>
 }

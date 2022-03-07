@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 
+
 // Don't touch this import
 import { fetchQueryResultsFromTermAndValue } from '../api';
 
@@ -30,7 +31,22 @@ import { fetchQueryResultsFromTermAndValue } from '../api';
  *  - call setIsLoading, set it to false
  */
 const Searchable = (props) => {
-  
+    const {searchTerm, searchValue, setSearchResults, setIsLoading} = props;
+
+    <span className="content">
+        <a href="#" onClick={async (event) => {event.preventDefault(), setIsLoading(true)
+        try{ const result = await fetchQueryResultsFromTermAndValue(searchTerm, searchValue);
+            setSearchResults(result);
+
+        } catch(error){ console.error(error)
+
+        }
+        finally{
+            setIsLoading(false)
+        }
+       }
+    }>SOME SEARCH TERM</a>
+    </span> 
 }
 
 /**
@@ -58,17 +74,58 @@ const Searchable = (props) => {
  *   </div>
  * </main>
  * 
- * The different facts look like this: title, dated, images, primaryimageurl, description, culture, style, 
- * technique, medium, dimensions, people, department, division, contact, creditline
+ * The different facts look like this: title, dated, 
+ * images, primaryimageurl, 
+ * description, /culture/, 
+ * style, /technique/,
+ *  /medium/, dimensions, 
+ * people, department, 
+ * division, contact, 
+ * creditline
  * 
- * The <Searchable /> ones are: culture, technique, medium (first toLowerCase it), and person.displayname (one for each PEOPLE)
+ * The <Searchable /> ones are: 
+ * culture, technique, medium (first toLowerCase it), 
+ * and person.displayname (one for each PEOPLE)
  * 
- * NOTE: people and images are likely to be arrays, and will need to be mapped over if they exist
+ * NOTE: people and images are likely to be arrays, 
+ * and will need to be mapped over if they exist
  * 
  * This component should be exported as default.
  */
 const Feature = (props) => {
+    const {featuredResult} = props;
+    const {title, dated, images, primaryimageurl, description, 
+        culture, style, technique, medium, dimensions, people, department,
+         division, contact, creditline} = props.featuredResult;
 
+         
+        return <main id="feature">
+           <div className="object-feature">
+             <header>
+               <h3>{title.name}</h3>
+               <h4>{dated}</h4>
+             </header>
+             <section className="facts">
+            <span className="title">
+                <li> 
+                {!description(undefined) ? (description.name) :null}
+                {!style (undefined) ?  (style.name) :null}
+                {!culture(undefined) ? (culture.name) : null}
+                {!dimensions(undefined) ? (dimensions.name) :null}
+                {!technique(undefined) ? (technique.name) :null}
+                {!department(undefined) ? (department.name) :null}
+                {!division(undefined) ? (division.name) : null}
+                {!contact(undefined) ? (contact.name) : null}
+                {!creditline(undefined) ? (creditline.name) :null}
+                </li>
+                </span>
+               <span className="content" >FACT VALUE</span>
+             </section>
+             <section className="photos">
+               <img src={IMAGE_URL} alt={SOMETHING_WORTHWHILE} />
+             </section>
+           </div>
+         </main>
 }
 
 export default Feature;
